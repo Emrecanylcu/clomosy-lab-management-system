@@ -1,0 +1,2687 @@
+  var
+  Form1: TclForm;
+
+  BtnAdminSec, BtnMusteriSec, BtnKayitSec: TclProButton;
+  BtnGirisYap, BtnKayitYap, BtnGeri, BtnCikis: TclProButton;
+  BtnAdminDashboard, BtnAdminSorunlar, BtnAdminTamirEt, BtnAdminStok, BtnAdminBakiye, BtnAdminGecmis, BtnAIAnaliz: TclProButton;
+  BtnAdminCihazlar, BtnCihazKaydetGit, BtnCihazKaydet, BtnAdminBakim, BtnBakimKaydet, BtnAdminTalepler, BtnTalepOnayla: TclProButton;
+  BtnBekleyen1, BtnBekleyen2, BtnBekleyen3, BtnBekleyen4, BtnBekleyen5: TclProButton;
+  BtnMusteriSorunBildir, BtnMusteriSorunlar, BtnMusteriBakiye, BtnBakiyeYukleGit, BtnBakiyeYukleOnay: TclProButton;
+  BtnMusteriTalep, BtnMusteriTalepler, BtnTalepGonder: TclProButton;
+  BtnSorunGonder, BtnSifreGoster, BtnHepsiniSec: TclProButton;
+  BtnKartPC, BtnKartSantrifuj, BtnKartSwitch, BtnKartKasa, BtnKartMouse, BtnKartKlavye, BtnKartMonitor, BtnKartSet: TclProButton;
+  BtnParcaMonitorKart, BtnParcaKlavyeKart, BtnParcaMouseKart, BtnParcaKasaKart, BtnParcaKabloKart, BtnParcaGenelKart: TclProButton;
+  ChkMonitor, ChkKlavye, ChkMouse, ChkKasa, ChkKablo, ChkGenelAriza: TclCheckBox;
+  ChkCihazPC, ChkCihazMonitor, ChkCihazSantrifuj, ChkCihazSwitch, ChkCihazKasa, ChkCihazMouse, ChkCihazKlavye, ChkCihazSet: TclCheckBox;
+  ImgCihazPC, ImgCihazSantrifuj, ImgCihazSwitch, ImgCihazKasa, ImgCihazMouse, ImgCihazKlavye, ImgCihazMonitor, ImgCihazSet: TclImage;
+
+  EditAd, EditKullanici, EditSifre, EditPC, EditSorun, EditBakiye, EditSecilenParcalar, EditSecilenCihaz: TclProEdit;
+  EditCihazAdi, EditKategori, EditSeriNo, EditKonum, EditDurum: TclProEdit;
+  EditBakimTipi, EditBakimAciklama, EditBakimMaliyet, EditTalep: TclProEdit;
+  MemoSonuc: TclMemo;
+
+  dbYolu, GirisTipi, AktifMusteriAdi, GeriHedef: String;
+  AktifMusteriID: Integer;
+  SecilenTamirID, TamirID1, TamirID2, TamirID3, TamirID4, TamirID5: Integer;
+
+void SQLKapat;
+{
+  Clomosy.DBSQLiteQuery.Close;
+}
+
+void HerSeyiGizle;
+{
+  MemoSonuc.Visible = False;
+  BtnAdminSec.Visible = False;
+  BtnMusteriSec.Visible = False;
+  BtnKayitSec.Visible = False;
+  BtnGirisYap.Visible = False;
+  BtnKayitYap.Visible = False;
+  BtnGeri.Visible = False;
+  BtnCikis.Visible = False;
+  BtnSifreGoster.Visible = False;
+  BtnHepsiniSec.Visible = False;
+  BtnKartPC.Visible = False;
+  BtnKartSantrifuj.Visible = False;
+  BtnKartSwitch.Visible = False;
+  BtnKartKasa.Visible = False;
+  BtnKartMouse.Visible = False;
+  BtnKartKlavye.Visible = False;
+  BtnKartMonitor.Visible = False;
+  BtnKartSet.Visible = False;
+  BtnParcaMonitorKart.Visible = False;
+  BtnParcaKlavyeKart.Visible = False;
+  BtnParcaMouseKart.Visible = False;
+  BtnParcaKasaKart.Visible = False;
+  BtnParcaKabloKart.Visible = False;
+  BtnParcaGenelKart.Visible = False;
+  ChkMonitor.Visible = False;
+  ChkKlavye.Visible = False;
+  ChkMouse.Visible = False;
+  ChkKasa.Visible = False;
+  ChkKablo.Visible = False;
+  ChkGenelAriza.Visible = False;
+  ChkCihazPC.Visible = False;
+  ChkCihazMonitor.Visible = False;
+  ChkCihazSantrifuj.Visible = False;
+  ChkCihazSantrifuj.Visible = False;
+  ChkCihazSwitch.Visible = False;
+  ChkCihazKasa.Visible = False;
+  ChkCihazMouse.Visible = False;
+  ChkCihazKlavye.Visible = False;
+  ChkCihazSet.Visible = False;
+  ImgCihazPC.Visible = False;
+  ImgCihazSantrifuj.Visible = False;
+  ImgCihazSwitch.Visible = False;
+  ImgCihazKasa.Visible = False;
+  ImgCihazMouse.Visible = False;
+  ImgCihazKlavye.Visible = False;
+  ImgCihazMonitor.Visible = False;
+  ImgCihazSet.Visible = False;
+
+  BtnAdminDashboard.Visible = False;
+  BtnAdminSorunlar.Visible = False;
+  BtnAdminTamirEt.Visible = False;
+  BtnAdminStok.Visible = False;
+  BtnAdminBakiye.Visible = False;
+  BtnAdminGecmis.Visible = False;
+  BtnAIAnaliz.Visible = False;
+
+  BtnAdminCihazlar.Visible = False;
+  BtnCihazKaydetGit.Visible = False;
+  BtnCihazKaydet.Visible = False;
+  BtnAdminBakim.Visible = False;
+  BtnBakimKaydet.Visible = False;
+  BtnAdminTalepler.Visible = False;
+  BtnTalepOnayla.Visible = False;
+  BtnBekleyen1.Visible = False;
+  BtnBekleyen2.Visible = False;
+  BtnBekleyen3.Visible = False;
+  BtnBekleyen4.Visible = False;
+  BtnBekleyen5.Visible = False;
+
+  BtnMusteriSorunBildir.Visible = False;
+  BtnMusteriSorunlar.Visible = False;
+  BtnMusteriBakiye.Visible = False;
+  BtnBakiyeYukleGit.Visible = False;
+  BtnBakiyeYukleOnay.Visible = False;
+  BtnSorunGonder.Visible = False;
+  BtnMusteriTalep.Visible = False;
+  BtnMusteriTalepler.Visible = False;
+  BtnTalepGonder.Visible = False;
+
+  EditAd.Visible = False;
+  EditKullanici.Visible = False;
+  EditSifre.Visible = False;
+  EditPC.Visible = False;
+  EditSorun.Visible = False;
+  EditSecilenParcalar.Visible = False;
+  EditSecilenCihaz.Visible = False;
+  EditBakiye.Visible = False;
+
+  EditCihazAdi.Visible = False;
+  EditKategori.Visible = False;
+  EditSeriNo.Visible = False;
+  EditKonum.Visible = False;
+  EditDurum.Visible = False;
+  EditBakimTipi.Visible = False;
+  EditBakimAciklama.Visible = False;
+  EditBakimMaliyet.Visible = False;
+  EditTalep.Visible = False;
+}
+
+void StilVer;
+{
+  clComponent.SetupComponent(BtnAdminSec, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "BorderColor":"#93C5FD", "BorderWidth":1, "RoundHeight":18, "RoundWidth":18, "MarginTop": 8, "MarginBottom": 8, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnMusteriSec, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#06B6D4", "BorderColor":"#A5F3FC", "BorderWidth":1, "RoundHeight":18, "RoundWidth":18, "MarginTop": 8, "MarginBottom": 8, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKayitSec, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#7C3AED", "BorderColor":"#C4B5FD", "BorderWidth":1, "RoundHeight":18, "RoundWidth":18, "MarginTop": 8, "MarginBottom": 8, "MarginLeft":6, "MarginRight":6}');
+
+  clComponent.SetupComponent(BtnGirisYap, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKayitYap, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+    clComponent.SetupComponent(BtnGeri, '{"TextColor":"#FFFFFF", "TextSize":15, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":14, "RoundWidth":14, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnSifreGoster, '{"TextColor":"#FFFFFF", "TextSize":15, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":14, "RoundWidth":14, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnCikis, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#EF4444", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+
+  clComponent.SetupComponent(BtnBekleyen1, '{"TextColor":"#FFFFFF", "TextSize":14, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":14, "RoundWidth":14, "MarginTop":3, "MarginBottom":3, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBekleyen2, '{"TextColor":"#FFFFFF", "TextSize":14, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":14, "RoundWidth":14, "MarginTop":3, "MarginBottom":3, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBekleyen3, '{"TextColor":"#FFFFFF", "TextSize":14, "TextBold":"yes", "BackgroundColor":"#0891B2", "RoundHeight":14, "RoundWidth":14, "MarginTop":3, "MarginBottom":3, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBekleyen4, '{"TextColor":"#FFFFFF", "TextSize":14, "TextBold":"yes", "BackgroundColor":"#0F766E", "RoundHeight":14, "RoundWidth":14, "MarginTop":3, "MarginBottom":3, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBekleyen5, '{"TextColor":"#FFFFFF", "TextSize":14, "TextBold":"yes", "BackgroundColor":"#475569", "RoundHeight":14, "RoundWidth":14, "MarginTop":3, "MarginBottom":3, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnAdminDashboard, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#111827", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminCihazlar, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnCihazKaydetGit, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#06B6D4", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminSorunlar, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#DC2626", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAIAnaliz, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminTamirEt, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#22C55E", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminBakim, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminTalepler, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#0891B2", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminStok, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#0F766E", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminBakiye, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#CA8A04", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+  clComponent.SetupComponent(BtnAdminGecmis, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#475569", "RoundHeight":18, "RoundWidth":18, "MarginTop": 2, "MarginBottom": 2, "MarginLeft": 6, "MarginRight": 6}');
+
+  clComponent.SetupComponent(BtnCihazKaydet, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBakimKaydet, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnTalepOnayla, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#22C55E", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+
+  clComponent.SetupComponent(BtnMusteriSorunBildir, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnMusteriSorunlar, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#06B6D4", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnMusteriTalep, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnMusteriTalepler, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#0891B2", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnMusteriBakiye, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#22C55E", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBakiyeYukleGit, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnBakiyeYukleOnay, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+    clComponent.SetupComponent(BtnSorunGonder, '{"TextColor":"#FFFFFF", "TextSize":15, "TextBold":"yes", "BackgroundColor":"#EF4444", "RoundHeight":14, "RoundWidth":14, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnTalepGonder, '{"TextColor":"#FFFFFF", "TextSize":17, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":18, "RoundWidth":18, "MarginTop":4, "MarginBottom":4, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnHepsiniSec, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":14, "RoundWidth":14, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+
+
+  clComponent.SetupComponent(BtnKartPC, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartSantrifuj, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartSwitch, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#0F766E", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartKasa, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#1D4ED8", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartMouse, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#16A34A", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartKlavye, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#9333EA", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartMonitor, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#0891B2", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnKartSet, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#0F172A", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaMonitorKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaKlavyeKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaMouseKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaKasaKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaKabloKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#334155", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(BtnParcaGenelKart, '{"TextColor":"#FFFFFF", "TextSize":13, "TextBold":"yes", "BackgroundColor":"#B45309", "RoundHeight":12, "RoundWidth":12, "MarginTop":2, "MarginBottom":2, "MarginLeft":6, "MarginRight":6}');
+  clComponent.SetupComponent(ChkMonitor, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkKlavye, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkMouse, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#22C55E", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkKasa, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkKablo, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#475569", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkGenelAriza, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#DC2626", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+
+  clComponent.SetupComponent(EditAd, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#DBEAFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditKullanici, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#DBEAFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditSifre, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#DBEAFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5, "Password":"yes", "IsPassword":"yes"}');
+  clComponent.SetupComponent(EditPC, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#DBEAFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+
+  clComponent.SetupComponent(ChkCihazPC, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#2563EB", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazMonitor, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#0891B2", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazSantrifuj, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazSantrifuj, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazSwitch, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#0F766E", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+
+  clComponent.SetupComponent(ChkCihazKasa, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#F97316", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazMouse, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#22C55E", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazKlavye, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#7C3AED", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(ChkCihazSet, '{"TextColor":"#FFFFFF", "TextSize":16, "TextBold":"yes", "BackgroundColor":"#0F766E", "RoundHeight":15, "RoundWidth":15, "MarginTop":4, "MarginBottom":4, "MarginLeft":8, "MarginRight":8}');
+  clComponent.SetupComponent(EditSecilenParcalar, '{"BackgroundColor":"#0F172A", "TextColor":"#FFFFFF", "TextSize":13, "BorderColor":"#38BDF8", "BorderWidth":2, "RoundHeight":12, "RoundWidth":12, "MarginLeft":6, "MarginRight":6, "MarginTop":2, "MarginBottom":2}');
+  clComponent.SetupComponent(EditSecilenCihaz, '{"BackgroundColor":"#0F172A", "TextColor":"#FFFFFF", "TextSize":13, "BorderColor":"#38BDF8", "BorderWidth":2, "RoundHeight":12, "RoundWidth":12, "MarginLeft":6, "MarginRight":6, "MarginTop":2, "MarginBottom":2}');
+  clComponent.SetupComponent(EditSorun, '{"BackgroundColor":"#0F172A", "TextColor":"#FFFFFF", "TextSize":13, "BorderColor":"#38BDF8", "BorderWidth":2, "RoundHeight":12, "RoundWidth":12, "MarginLeft":6, "MarginRight":6, "MarginTop":2, "MarginBottom":2}');
+  clComponent.SetupComponent(EditBakiye, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#DBEAFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditCihazAdi, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#BFDBFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditKategori, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#BFDBFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditSeriNo, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#BFDBFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditKonum, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#BFDBFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditDurum, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#BFDBFE", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditBakimTipi, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#FED7AA", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditBakimAciklama, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#FED7AA", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditBakimMaliyet, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#FED7AA", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+  clComponent.SetupComponent(EditTalep, '{"BackgroundColor":"#FFFFFF", "BorderColor":"#A5F3FC", "BorderWidth":2, "RoundHeight":18, "RoundWidth":18, "MarginLeft":12, "MarginRight":12, "MarginTop":5, "MarginBottom":5}');
+}
+
+
+
+void ResimleriYukle;
+{
+}
+
+void CihazKartlariniSifirla;
+{
+  BtnKartPC.Text = '☐ 💻 Quantum Core PC-01 | Bilgisayar / Kasa';
+  BtnKartSantrifuj.Text = '☐ 🧪 Quantum Santrifuj-01 | Santrifuj';
+  BtnKartSwitch.Text = '☐ 🌐 Network Switch-01 | Ag Cihazi';
+  BtnKartKasa.Text = '☐ 🖥️ Gaming Kasa-01 | Bilgisayar Kasasi';
+  BtnKartMouse.Text = '☐ 🖱️ Mouse-01 | Mouse';
+  BtnKartKlavye.Text = '☐ ⌨️ Klavye-01 | Klavye';
+  BtnKartMonitor.Text = '☐ 🖥️ Monitor-01 | Monitor / Ekran';
+  BtnKartSet.Text = '☐ 💻 Masaustu Set-01 | Tam Bilgisayar Seti';
+}
+
+void CihazSecimleriTemizle;
+{
+  ChkCihazPC.IsChecked = False;
+  ChkCihazMonitor.IsChecked = False;
+  ChkCihazSantrifuj.IsChecked = False;
+  ChkCihazSwitch.IsChecked = False;
+  ChkCihazKasa.IsChecked = False;
+  ChkCihazMouse.IsChecked = False;
+  ChkCihazKlavye.IsChecked = False;
+  ChkCihazSet.IsChecked = False;
+  CihazKartlariniSifirla;
+}
+
+void SecilenCihaziGoster;
+{
+  EditSecilenCihaz.Visible = True;
+
+  if EditPC.Text == ''
+    EditSecilenCihaz.Text = 'Secilen cihaz: yok'
+  else
+    EditSecilenCihaz.Text = 'Secilen cihaz: ' + EditPC.Text;
+}
+
+void CihazPCTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazPC.IsChecked = True;
+  EditPC.Text = 'Quantum Core PC-01';
+  BtnKartPC.Text = '☑ 💻 Quantum Core PC-01 | Bilgisayar / Kasa';
+  SecilenCihaziGoster;
+}
+
+void CihazSantrifujTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazSantrifuj.IsChecked = True;
+  EditPC.Text = 'Quantum Santrifuj-01';
+  BtnKartSantrifuj.Text = '☑ 🧪 Quantum Santrifuj-01 | Santrifuj';
+  SecilenCihaziGoster;
+}
+
+void CihazSwitchTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazSwitch.IsChecked = True;
+  EditPC.Text = 'Network Switch-01';
+  BtnKartSwitch.Text = '☑ 🌐 Network Switch-01 | Ag Cihazi';
+  SecilenCihaziGoster;
+}
+
+void CihazKasaTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazKasa.IsChecked = True;
+  EditPC.Text = 'Gaming Kasa-01';
+  BtnKartKasa.Text = '☑ 🖥️ Gaming Kasa-01 | Bilgisayar Kasasi';
+  SecilenCihaziGoster;
+}
+
+void CihazMouseTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazMouse.IsChecked = True;
+  EditPC.Text = 'Mouse-01';
+  BtnKartMouse.Text = '☑ 🖱️ Mouse-01 | Mouse';
+  SecilenCihaziGoster;
+}
+
+void CihazKlavyeTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazKlavye.IsChecked = True;
+  EditPC.Text = 'Klavye-01';
+  BtnKartKlavye.Text = '☑ ⌨️ Klavye-01 | Klavye';
+  SecilenCihaziGoster;
+}
+
+void CihazMonitorTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazMonitor.IsChecked = True;
+  EditPC.Text = 'Monitor-01';
+  BtnKartMonitor.Text = '☑ 🖥️ Monitor-01 | Monitor / Ekran';
+  SecilenCihaziGoster;
+}
+
+void CihazSetTikla;
+{
+  CihazSecimleriTemizle;
+  ChkCihazSet.IsChecked = True;
+  EditPC.Text = 'Masaustu Bilgisayar Seti-01';
+  BtnKartSet.Text = '☑ 💻 Masaustu Set-01 | Tam Bilgisayar Seti';
+  SecilenCihaziGoster;
+}
+
+void ParcaKartlariniGuncelle;
+{
+  if ChkMonitor.IsChecked
+    BtnParcaMonitorKart.Text = '☑ 🖥️ MONITOR'
+  else
+    BtnParcaMonitorKart.Text = '☐ 🖥️ MONITOR';
+
+  if ChkKlavye.IsChecked
+    BtnParcaKlavyeKart.Text = '☑ ⌨️ KLAVYE'
+  else
+    BtnParcaKlavyeKart.Text = '☐ ⌨️ KLAVYE';
+
+  if ChkMouse.IsChecked
+    BtnParcaMouseKart.Text = '☑ 🖱️ MOUSE'
+  else
+    BtnParcaMouseKart.Text = '☐ 🖱️ MOUSE';
+
+  if ChkKasa.IsChecked
+    BtnParcaKasaKart.Text = '☑ 🧰 KASA'
+  else
+    BtnParcaKasaKart.Text = '☐ 🧰 KASA';
+
+  if ChkKablo.IsChecked
+    BtnParcaKabloKart.Text = '☑ 🔌 INTERNET KABLOSU'
+  else
+    BtnParcaKabloKart.Text = '☐ 🔌 INTERNET KABLOSU';
+
+  if ChkGenelAriza.IsChecked
+    BtnParcaGenelKart.Text = '☑ ⚠️ GENEL ARIZA'
+  else
+    BtnParcaGenelKart.Text = '☐ ⚠️ GENEL ARIZA';
+}
+
+void SecilenParcalariListele;
+var
+  Liste: String;
+{
+  Liste = '';
+
+  if ChkMonitor.IsChecked
+    Liste = Liste + 'Monitor, ';
+
+  if ChkKlavye.IsChecked
+    Liste = Liste + 'Klavye, ';
+
+  if ChkMouse.IsChecked
+    Liste = Liste + 'Mouse, ';
+
+  if ChkKasa.IsChecked
+    Liste = Liste + 'Kasa, ';
+
+  if ChkKablo.IsChecked
+    Liste = Liste + 'Internet Kablosu, ';
+
+  if ChkGenelAriza.IsChecked
+    Liste = Liste + 'Genel Ariza, ';
+
+  EditSecilenParcalar.Visible = True;
+
+  if Liste == ''
+    EditSecilenParcalar.Text = 'Arizali parca listesi: bos'
+  else
+    EditSecilenParcalar.Text = 'Arizali parcalar: ' + Liste;
+
+  ParcaKartlariniGuncelle;
+}
+
+void ParcaMonitorTikla;
+{
+  if ChkMonitor.IsChecked
+    ChkMonitor.IsChecked = False
+  else
+    ChkMonitor.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ParcaKlavyeTikla;
+{
+  if ChkKlavye.IsChecked
+    ChkKlavye.IsChecked = False
+  else
+    ChkKlavye.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ParcaMouseTikla;
+{
+  if ChkMouse.IsChecked
+    ChkMouse.IsChecked = False
+  else
+    ChkMouse.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ParcaKasaTikla;
+{
+  if ChkKasa.IsChecked
+    ChkKasa.IsChecked = False
+  else
+    ChkKasa.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ParcaKabloTikla;
+{
+  if ChkKablo.IsChecked
+    ChkKablo.IsChecked = False
+  else
+    ChkKablo.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ParcaGenelTikla;
+{
+  if ChkGenelAriza.IsChecked
+    ChkGenelAriza.IsChecked = False
+  else
+    ChkGenelAriza.IsChecked = True;
+
+  SecilenParcalariListele;
+}
+
+void ArizaSecimiDegisti;
+{
+  SecilenParcalariListele;
+}
+
+void HepsiniSec;
+{
+  if ChkMonitor.IsChecked
+  {
+    ChkMonitor.IsChecked = False;
+    ChkKlavye.IsChecked = False;
+    ChkMouse.IsChecked = False;
+    ChkKasa.IsChecked = False;
+    ChkKablo.IsChecked = False;
+    ChkGenelAriza.IsChecked = False;
+  }
+  else
+  {
+    ChkMonitor.IsChecked = True;
+    ChkKlavye.IsChecked = True;
+    ChkMouse.IsChecked = True;
+    ChkKasa.IsChecked = True;
+    ChkKablo.IsChecked = True;
+    ChkGenelAriza.IsChecked = True;
+  }
+
+  SecilenParcalariListele;
+}
+
+void SifreGosterGizle;
+{
+  if BtnSifreGoster.Text == '👁️ SIFREYI GOSTER'
+  {
+    EditSifre.Password = False;
+    BtnSifreGoster.Text = '🙈 SIFREYI GIZLE';
+  }
+  else
+  {
+    EditSifre.Password = True;
+    BtnSifreGoster.Text = '👁️ SIFREYI GOSTER';
+  }
+}
+
+void VeritabaniHazirla;
+{
+  dbYolu = Clomosy.AppFilesPath + 'LabDB_OnarimSecimli_V1.db3';
+
+  if not Clomosy.DBSQLiteConnect(dbYolu, '')
+  {
+    ShowMessage('Veritabani baglanti hatasi! Clomosy pencerelerini kapatip tekrar deneyin.');
+    exit;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Musteriler (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, Ad TEXT, KullaniciAdi TEXT, Sifre TEXT, Bakiye INTEGER, LabTipi TEXT)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Sorunlar (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, MusteriID INTEGER, MusteriAdi TEXT, BilgisayarAdi TEXT, SorunMetni TEXT, Durum TEXT)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Stok (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, ParcaAdi TEXT, Adet INTEGER, AlisFiyat INTEGER)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Muhasebe (' +
+    'ID INTEGER PRIMARY KEY, ToplamGelir INTEGER, ToplamGider INTEGER, NetKar INTEGER)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Islemler (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, MusteriAdi TEXT, BilgisayarAdi TEXT, ParcaAdi TEXT, ToplamTutar INTEGER, Kar INTEGER)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Cihazlar (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, CihazAdi TEXT, Kategori TEXT, SeriNo TEXT, Konum TEXT, Durum TEXT)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Bakimlar (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, CihazAdi TEXT, BakimTipi TEXT, Aciklama TEXT, Maliyet INTEGER, Durum TEXT)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'CREATE TABLE IF NOT EXISTS Talepler (' +
+    'ID INTEGER PRIMARY KEY AUTOINCREMENT, MusteriID INTEGER, MusteriAdi TEXT, CihazAdi TEXT, TalepMetni TEXT, Durum TEXT)';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+}
+
+void IlkVeriYukle;
+{
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Stok';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if not Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Stok VALUES (NULL,' + QuotedStr('Kasa') + ',5,6000)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Stok VALUES (NULL,' + QuotedStr('Monitor') + ',8,2500)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Stok VALUES (NULL,' + QuotedStr('Klavye') + ',15,250)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Stok VALUES (NULL,' + QuotedStr('Mouse') + ',20,100)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Stok VALUES (NULL,' + QuotedStr('Internet Kablosu') + ',30,75)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Muhasebe WHERE ID=1';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if not Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Muhasebe VALUES (1,0,0,0)';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Cihazlar';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if not Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Cihazlar VALUES (NULL,' + QuotedStr('Santrifuj-01') + ',' + QuotedStr('Optik Cihaz') + ',' + QuotedStr('MIC-001') + ',' + QuotedStr('Lab A') + ',' + QuotedStr('Aktif') + ')';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Cihazlar VALUES (NULL,' + QuotedStr('Santrifuj-01') + ',' + QuotedStr('Analiz Cihazi') + ',' + QuotedStr('SAN-001') + ',' + QuotedStr('Lab B') + ',' + QuotedStr('Bakimda') + ')';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text = 'INSERT INTO Cihazlar VALUES (NULL,' + QuotedStr('PC-01') + ',' + QuotedStr('Bilgisayar') + ',' + QuotedStr('PC-001') + ',' + QuotedStr('Lab PC Alani') + ',' + QuotedStr('Aktif') + ')';
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+  }
+
+  SQLKapat;
+}
+
+void AnaSayfa;
+{
+  HerSeyiGizle;
+
+  BtnAdminSec.Visible = True;
+  BtnMusteriSec.Visible = True;
+  BtnKayitSec.Visible = True;
+
+  GirisTipi = '';
+  GeriHedef = 'AnaSayfa';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void AdminGirisEkrani;
+{
+  HerSeyiGizle;
+
+  GirisTipi = 'AdminLogin';
+  GeriHedef = 'AnaSayfa';
+
+  EditKullanici.Visible = True;
+  EditSifre.Visible = True;
+  BtnSifreGoster.Visible = True;
+  BtnGirisYap.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditKullanici.Text = '';
+  EditSifre.Text = '';
+  EditSifre.Password = True;
+  BtnSifreGoster.Text = '👁️ SIFREYI GOSTER';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void MusteriGirisEkrani;
+{
+  HerSeyiGizle;
+
+  GirisTipi = 'MusteriLogin';
+  GeriHedef = 'AnaSayfa';
+
+  EditKullanici.Visible = True;
+  EditSifre.Visible = True;
+  BtnSifreGoster.Visible = True;
+  BtnGirisYap.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditKullanici.Text = '';
+  EditSifre.Text = '';
+  EditSifre.Password = True;
+  BtnSifreGoster.Text = '👁️ SIFREYI GOSTER';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void MusteriKayitEkrani;
+{
+  HerSeyiGizle;
+
+  GirisTipi = 'Kayit';
+  GeriHedef = 'AnaSayfa';
+
+  EditAd.Visible = True;
+  EditKullanici.Visible = True;
+  EditSifre.Visible = True;
+  BtnSifreGoster.Visible = True;
+  BtnKayitYap.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditAd.Text = '';
+  EditKullanici.Text = '';
+  EditSifre.Text = '';
+  EditSifre.Password = True;
+  BtnSifreGoster.Text = '👁️ SIFREYI GOSTER';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void MusteriKayitYap;
+{
+  if EditAd.Text == ''
+  {
+    ShowMessage('Ad bos olamaz!');
+    exit;
+  }
+
+  if EditKullanici.Text == ''
+  {
+    ShowMessage('Kullanici adi bos olamaz!');
+    exit;
+  }
+
+  if EditSifre.Text == ''
+  {
+    ShowMessage('Sifre bos olamaz!');
+    exit;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Musteriler WHERE KullaniciAdi=' + QuotedStr(EditKullanici.Text);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    ShowMessage('Bu kullanici adi zaten var!');
+    exit;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Musteriler (Ad,KullaniciAdi,Sifre,Bakiye,LabTipi) VALUES (' +
+    QuotedStr(EditAd.Text) + ',' +
+    QuotedStr(EditKullanici.Text) + ',' +
+    QuotedStr(EditSifre.Text) + ',0,' +
+    QuotedStr('Standart Lab') + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Kayit basarili. Giris yapabilirsiniz.');
+  MusteriGirisEkrani;
+}
+
+void AdminPanel;
+{
+  HerSeyiGizle;
+
+  GirisTipi = 'Admin';
+  GeriHedef = 'AdminPanel';
+
+  BtnAdminDashboard.Visible = True;
+  BtnAdminCihazlar.Visible = True;
+  BtnCihazKaydetGit.Visible = True;
+  BtnAdminSorunlar.Visible = True;
+  BtnAIAnaliz.Visible = True;
+  BtnAdminTamirEt.Visible = True;
+  BtnAdminBakim.Visible = True;
+  BtnAdminTalepler.Visible = True;
+  BtnAdminStok.Visible = True;
+  BtnAdminBakiye.Visible = True;
+  BtnAdminGecmis.Visible = True;
+  BtnCikis.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void MusteriPanel;
+{
+  HerSeyiGizle;
+
+  GirisTipi = 'Musteri';
+  GeriHedef = 'MusteriPanel';
+
+  BtnMusteriSorunBildir.Visible = True;
+  BtnMusteriSorunlar.Visible = True;
+  BtnMusteriTalep.Visible = True;
+  BtnMusteriTalepler.Visible = True;
+  BtnMusteriBakiye.Visible = True;
+  BtnBakiyeYukleGit.Visible = True;
+  BtnCikis.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void GirisYap;
+{
+  if GirisTipi == 'AdminLogin'
+  {
+    if EditKullanici.Text == 'admin'
+    {
+      if EditSifre.Text == '1234'
+        AdminPanel;
+      else
+        ShowMessage('Sifre hatali!');
+    }
+    else
+      ShowMessage('Kullanici adi hatali!');
+  }
+  else
+  {
+    SQLKapat;
+    Clomosy.DBSQLiteQuery.Sql.Text =
+      'SELECT * FROM Musteriler WHERE KullaniciAdi=' + QuotedStr(EditKullanici.Text) +
+      ' AND Sifre=' + QuotedStr(EditSifre.Text);
+    Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+    if Clomosy.DBSQLiteQuery.Found
+    {
+      Clomosy.DBSQLiteQuery.First;
+      AktifMusteriID = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+      AktifMusteriAdi = Clomosy.DBSQLiteQuery.FieldByName('Ad').AsString;
+      SQLKapat;
+      MusteriPanel;
+    }
+    else
+    {
+      SQLKapat;
+      ShowMessage('Bilgiler hatali!');
+    }
+  }
+}
+
+void AdminDashboard;
+var
+  MusteriSayisi, BekleyenSorun, TamamlananSorun, CihazSayisi, AktifCihaz, BakimdaCihaz, BekleyenTalep, ToplamGelir, NetKar: Integer;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  MusteriSayisi = 0;
+  BekleyenSorun = 0;
+  TamamlananSorun = 0;
+  CihazSayisi = 0;
+  AktifCihaz = 0;
+  BakimdaCihaz = 0;
+  BekleyenTalep = 0;
+  ToplamGelir = 0;
+  NetKar = 0;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Musteriler';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    MusteriSayisi = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Sorunlar WHERE Durum=' + QuotedStr('Onarim Bekliyor');
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    BekleyenSorun = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Sorunlar WHERE Durum=' + QuotedStr('Tamamlandi');
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    TamamlananSorun = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Cihazlar';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    CihazSayisi = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Cihazlar WHERE Durum=' + QuotedStr('Aktif');
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    AktifCihaz = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Cihazlar WHERE Durum=' + QuotedStr('Bakimda');
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    BakimdaCihaz = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT COUNT(*) AS Sayi FROM Talepler WHERE Durum=' + QuotedStr('Bekliyor');
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+    BekleyenTalep = Clomosy.DBSQLiteQuery.FieldByName('Sayi').AsInteger;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Muhasebe WHERE ID=1';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    ToplamGelir = Clomosy.DBSQLiteQuery.FieldByName('ToplamGelir').AsInteger;
+    NetKar = Clomosy.DBSQLiteQuery.FieldByName('NetKar').AsInteger;
+  }
+  SQLKapat;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '📊 LAB DASHBOARD' + #13#10 + #13#10 +
+    '👥 Kayitli kullanici: ' + IntToStr(MusteriSayisi) + #13#10 +
+    '🛠️ Bekleyen ariza: ' + IntToStr(BekleyenSorun) + #13#10 +
+    '✅ Tamamlanan ariza: ' + IntToStr(TamamlananSorun) + #13#10 +
+    '💻 Toplam cihaz: ' + IntToStr(CihazSayisi) + #13#10 +
+    '🟢 Aktif cihaz: ' + IntToStr(AktifCihaz) + #13#10 +
+    '🟡 Bakimdaki cihaz: ' + IntToStr(BakimdaCihaz) + #13#10 +
+    '📌 Bekleyen cihaz talebi: ' + IntToStr(BekleyenTalep) + #13#10 +
+    '💰 Toplam gelir: ' + IntToStr(ToplamGelir) + ' TL' + #13#10 +
+    '📈 Net kar: ' + IntToStr(NetKar) + ' TL';
+}
+
+void MusteriSorunEkrani;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = False;
+
+  GeriHedef = 'MusteriPanel';
+
+  EditSecilenCihaz.Visible = True;
+  EditSecilenParcalar.Visible = True;
+
+  BtnKartPC.Visible = True;
+  BtnKartSantrifuj.Visible = True;
+  BtnKartSwitch.Visible = True;
+  BtnKartKasa.Visible = True;
+  BtnKartMouse.Visible = True;
+  BtnKartKlavye.Visible = True;
+  BtnKartMonitor.Visible = True;
+  BtnKartSet.Visible = True;
+
+  BtnParcaMonitorKart.Visible = True;
+  BtnParcaKlavyeKart.Visible = True;
+  BtnParcaMouseKart.Visible = True;
+  BtnParcaKasaKart.Visible = True;
+  BtnParcaKabloKart.Visible = True;
+  BtnParcaGenelKart.Visible = True;
+
+  BtnHepsiniSec.Visible = True;
+  EditSorun.Visible = True;
+  BtnSorunGonder.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditPC.Visible = False;
+  EditPC.Text = '';
+  EditSorun.Text = '';
+  EditSecilenCihaz.Text = 'Secilen cihaz: yok';
+  EditSecilenParcalar.Text = 'Arizali parca listesi: bos';
+
+  EditSecilenCihaz.Align = alTop;
+  EditSecilenParcalar.Align = alTop;
+
+  BtnKartPC.Align = alTop;
+  BtnKartSantrifuj.Align = alTop;
+  BtnKartSwitch.Align = alTop;
+  BtnKartKasa.Align = alTop;
+  BtnKartMouse.Align = alTop;
+  BtnKartKlavye.Align = alTop;
+  BtnKartMonitor.Align = alTop;
+  BtnKartSet.Align = alTop;
+
+  BtnParcaMonitorKart.Align = alTop;
+  BtnParcaKlavyeKart.Align = alTop;
+  BtnParcaMouseKart.Align = alTop;
+  BtnParcaKasaKart.Align = alTop;
+  BtnParcaKabloKart.Align = alTop;
+  BtnParcaGenelKart.Align = alTop;
+
+  BtnHepsiniSec.Align = alTop;
+  EditSorun.Align = alTop;
+  BtnSorunGonder.Align = alTop;
+  BtnGeri.Align = alTop;
+
+  EditSecilenCihaz.Height = 34;
+  EditSecilenParcalar.Height = 34;
+
+  BtnKartPC.Height = 33;
+  BtnKartSantrifuj.Height = 33;
+  BtnKartSwitch.Height = 33;
+  BtnKartKasa.Height = 33;
+  BtnKartMouse.Height = 33;
+  BtnKartKlavye.Height = 33;
+  BtnKartMonitor.Height = 33;
+  BtnKartSet.Height = 33;
+
+  BtnParcaMonitorKart.Height = 31;
+  BtnParcaKlavyeKart.Height = 31;
+  BtnParcaMouseKart.Height = 31;
+  BtnParcaKasaKart.Height = 31;
+  BtnParcaKabloKart.Height = 31;
+  BtnParcaGenelKart.Height = 31;
+
+  BtnHepsiniSec.Height = 32;
+  EditSorun.Height = 36;
+  BtnSorunGonder.Height = 42;
+  BtnGeri.Height = 42;
+
+  CihazSecimleriTemizle;
+
+  ChkMonitor.IsChecked = False;
+  ChkKlavye.IsChecked = False;
+  ChkMouse.IsChecked = False;
+  ChkKasa.IsChecked = False;
+  ChkKablo.IsChecked = False;
+  ChkGenelAriza.IsChecked = False;
+
+  ParcaKartlariniGuncelle;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+}
+
+void SorunGonder;
+var
+  SecimMetni, SonMetin: String;
+{
+  if EditPC.Text == ''
+  {
+    ShowMessage('Lutfen listeden bir cihaz seciniz.');
+    exit;
+  }
+
+  SecimMetni = '';
+
+  if ChkMonitor.IsChecked
+    SecimMetni = SecimMetni + 'Monitor' + #13#10;
+
+  if ChkKlavye.IsChecked
+    SecimMetni = SecimMetni + 'Klavye' + #13#10;
+
+  if ChkMouse.IsChecked
+    SecimMetni = SecimMetni + 'Mouse' + #13#10;
+
+  if ChkKasa.IsChecked
+    SecimMetni = SecimMetni + 'Kasa' + #13#10;
+
+  if ChkKablo.IsChecked
+    SecimMetni = SecimMetni + 'Internet Kablosu' + #13#10;
+
+  if ChkGenelAriza.IsChecked
+    SecimMetni = SecimMetni + 'Genel Ariza' + #13#10;
+
+  if SecimMetni == ''
+  {
+    ShowMessage('En az bir arizali parca seciniz.');
+    exit;
+  }
+
+  SonMetin = 'Onaylanan Arizali Parcalar:' + #13#10 + SecimMetni;
+
+  if EditSorun.Text == ''
+  {
+  }
+  else
+    SonMetin = SonMetin + #13#10 + 'Ek Not: ' + EditSorun.Text;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Sorunlar VALUES (NULL,' +
+    IntToStr(AktifMusteriID) + ',' +
+    QuotedStr(AktifMusteriAdi) + ',' +
+    QuotedStr(EditPC.Text) + ',' +
+    QuotedStr(SonMetin) + ',' +
+    QuotedStr('Onarim Bekliyor') + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Ariza onaylandi. Kayit onarim icin bekleyen arizalara eklendi.');
+  MusteriPanel;
+}
+
+void MusteriSorunlariniGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'MusteriPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '📋 BENIM ARIZA KAYITLARIM' + #13#10 +
+    '==================================================' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Sorunlar WHERE MusteriID=' + IntToStr(AktifMusteriID) + ' ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Cihaz: ' + Clomosy.DBSQLiteQuery.FieldByName('BilgisayarAdi').AsString + #13#10 +
+        'Durum: ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString + #13#10 +
+        'Ariza:' + #13#10 +
+        Clomosy.DBSQLiteQuery.FieldByName('SorunMetni').AsString + #13#10 +
+        '--------------------------------------------------' + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Ariza kaydiniz yok.';
+
+  SQLKapat;
+}
+
+void MusteriBakiyeGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'MusteriPanel';
+
+  BtnGeri.Visible = True;
+  EditBakiye.Visible = True;
+  BtnBakiyeYukleOnay.Visible = True;
+
+  EditBakiye.Text = '';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Musteriler WHERE ID=' + IntToStr(AktifMusteriID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    MemoSonuc.Text =
+      '💳 BAKIYE PANELI' + #13#10 +
+      '==================================================' + #13#10 + #13#10 +
+      'Kullanici: ' + AktifMusteriAdi + #13#10 +
+      'Mevcut Bakiye: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('Bakiye').AsInteger) + ' TL' + #13#10 + #13#10 +
+      'Bakiye yuklemek icin yukaridaki alana tutar girip ONAYLA butonuna bas.';
+  }
+  else
+    MemoSonuc.Text = 'Bakiye bilgisi bulunamadi.';
+
+  SQLKapat;
+}
+
+void BakiyeYukleEkrani;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'MusteriPanel';
+
+  EditBakiye.Visible = True;
+  BtnBakiyeYukleOnay.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditBakiye.Text = '';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '💰 BAKIYE YUKLE';
+}
+
+void BakiyeYukle;
+var
+  Tutar: Integer;
+{
+  if EditBakiye.Text == ''
+  {
+    ShowMessage('Tutar gir!');
+    exit;
+  }
+
+  Tutar = StrToInt(EditBakiye.Text);
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Musteriler SET Bakiye = Bakiye + ' + IntToStr(Tutar) +
+    ' WHERE ID=' + IntToStr(AktifMusteriID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Bakiye yuklendi.');
+  MusteriBakiyeGoster;
+}
+
+
+void TamirSecimiGoster;
+{
+  MemoSonuc.Visible = True;
+
+  if SecilenTamirID == 0
+  {
+    MemoSonuc.Text =
+      '🛠️ ONARIM BEKLEYEN ARIZA SECIMI' + #13#10 +
+      '==================================================' + #13#10 + #13#10 +
+      'Asagidaki ariza kartlarindan birini sec.' + #13#10 +
+      'Sonra TAMIR ET butonuna bas.';
+  }
+  else
+  {
+    MemoSonuc.Text =
+      '✅ Secilen onarim kaydi: #' + IntToStr(SecilenTamirID) + #13#10 + #13#10 +
+      'Bu kaydi tamir etmek icin TAMIR ET butonuna bas.';
+  }
+}
+
+void Bekleyen1Sec;
+{
+  SecilenTamirID = TamirID1;
+  if SecilenTamirID == 0
+    ShowMessage('Bu satirda ariza yok.')
+  else
+    TamirSecimiGoster;
+}
+
+void Bekleyen2Sec;
+{
+  SecilenTamirID = TamirID2;
+  if SecilenTamirID == 0
+    ShowMessage('Bu satirda ariza yok.')
+  else
+    TamirSecimiGoster;
+}
+
+void Bekleyen3Sec;
+{
+  SecilenTamirID = TamirID3;
+  if SecilenTamirID == 0
+    ShowMessage('Bu satirda ariza yok.')
+  else
+    TamirSecimiGoster;
+}
+
+void Bekleyen4Sec;
+{
+  SecilenTamirID = TamirID4;
+  if SecilenTamirID == 0
+    ShowMessage('Bu satirda ariza yok.')
+  else
+    TamirSecimiGoster;
+}
+
+void Bekleyen5Sec;
+{
+  SecilenTamirID = TamirID5;
+  if SecilenTamirID == 0
+    ShowMessage('Bu satirda ariza yok.')
+  else
+    TamirSecimiGoster;
+}
+
+void AdminSorunlariGoster;
+var
+  Sira: Integer;
+  KartMetni: String;
+{
+  HerSeyiGizle;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+  BtnAdminTamirEt.Visible = True;
+  MemoSonuc.Visible = True;
+
+  BtnBekleyen1.Visible = True;
+  BtnBekleyen2.Visible = True;
+  BtnBekleyen3.Visible = True;
+  BtnBekleyen4.Visible = True;
+  BtnBekleyen5.Visible = True;
+
+  BtnGeri.Align = alTop;
+  BtnAdminTamirEt.Align = alTop;
+  BtnBekleyen1.Align = alTop;
+  BtnBekleyen2.Align = alTop;
+  BtnBekleyen3.Align = alTop;
+  BtnBekleyen4.Align = alTop;
+  BtnBekleyen5.Align = alTop;
+  MemoSonuc.Align = alClient;
+
+  BtnGeri.Height = 42;
+  BtnAdminTamirEt.Height = 44;
+  BtnBekleyen1.Height = 58;
+  BtnBekleyen2.Height = 58;
+  BtnBekleyen3.Height = 58;
+  BtnBekleyen4.Height = 58;
+  BtnBekleyen5.Height = 58;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  SecilenTamirID = 0;
+  TamirID1 = 0;
+  TamirID2 = 0;
+  TamirID3 = 0;
+  TamirID4 = 0;
+  TamirID5 = 0;
+
+  BtnBekleyen1.Text = 'Bos';
+  BtnBekleyen2.Text = 'Bos';
+  BtnBekleyen3.Text = 'Bos';
+  BtnBekleyen4.Text = 'Bos';
+  BtnBekleyen5.Text = 'Bos';
+
+  MemoSonuc.Text =
+    '🛠️ ONARIM BEKLEYEN ARIZA SECIMI' + #13#10 +
+    '==================================================' + #13#10 + #13#10 +
+    'Bir ariza kartina tikla, sonra TAMIR ET butonuna bas.' + #13#10 +
+    'Listede ilk 5 bekleyen kayit gosterilir.';
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Sorunlar WHERE Durum=' + QuotedStr('Onarim Bekliyor') +
+    ' OR Durum=' + QuotedStr('Onaylandi') +
+    ' OR Durum=' + QuotedStr('Bekliyor') +
+    ' ORDER BY ID ASC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+    Sira = 1;
+
+    while ((not Clomosy.DBSQLiteQuery.Eof) && (Sira <= 5))
+    {
+      KartMetni =
+        '☐ #' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger) +
+        ' | ' + Clomosy.DBSQLiteQuery.FieldByName('MusteriAdi').AsString +
+        ' | ' + Clomosy.DBSQLiteQuery.FieldByName('BilgisayarAdi').AsString +
+        ' | ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString;
+
+      if Sira == 1
+      {
+        TamirID1 = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+        BtnBekleyen1.Text = KartMetni;
+      }
+
+      if Sira == 2
+      {
+        TamirID2 = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+        BtnBekleyen2.Text = KartMetni;
+      }
+
+      if Sira == 3
+      {
+        TamirID3 = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+        BtnBekleyen3.Text = KartMetni;
+      }
+
+      if Sira == 4
+      {
+        TamirID4 = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+        BtnBekleyen4.Text = KartMetni;
+      }
+
+      if Sira == 5
+      {
+        TamirID5 = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+        BtnBekleyen5.Text = KartMetni;
+      }
+
+      Sira = Sira + 1;
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+  {
+    MemoSonuc.Text =
+      '🛠️ ONARIM BEKLEYEN ARIZA SECIMI' + #13#10 +
+      '==================================================' + #13#10 + #13#10 +
+      'Onarim icin bekleyen ariza yok.';
+  }
+
+  SQLKapat;
+}
+
+void AIArizaAnalizi;
+var
+  SorunMetni, ParcaListesi, Oncelik, Cozum, Risk, KontrolListesi: String;
+  TahminiTutar, Puan: Integer;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '🤖 GELISMIS AI ARIZA ANALIZI / KARAR DESTEK' + #13#10 +
+    '==================================================' + #13#10 + #13#10 +
+    'Bu bolum ChatGPT gibi internete baglanan bir yapay zeka degildir.' + #13#10 +
+    'Program icinde calisan kural tabanli AI/karar destek sistemidir.' + #13#10 +
+    'Secilen arizali parcalara gore risk, oncelik, tahmini maliyet ve cozum onerisi uretir.' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Sorunlar WHERE Durum=' + QuotedStr('Onarim Bekliyor') + ' ORDER BY ID ASC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      SorunMetni = LowerCase(Clomosy.DBSQLiteQuery.FieldByName('SorunMetni').AsString);
+
+      ParcaListesi = '';
+      Oncelik = 'Dusuk';
+      Risk = 'Normal';
+      Cozum = '';
+      KontrolListesi = '';
+      TahminiTutar = 0;
+      Puan = 0;
+
+      if Pos('monitor', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Monitor, ';
+        TahminiTutar = TahminiTutar + 3170;
+        Puan = Puan + 35;
+        Cozum = Cozum + '- Monitor kablosu, guc kablosu ve ekran cikisi kontrol edilmeli.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Monitor testi > HDMI/VGA kablo testi > Yedek ekran denemesi' + #13#10;
+      }
+
+      if Pos('ekran', SorunMetni) > 0
+      {
+        if Pos('Monitor', ParcaListesi) == 0
+          ParcaListesi = ParcaListesi + 'Monitor, ';
+        TahminiTutar = TahminiTutar + 3170;
+        Puan = Puan + 35;
+        Cozum = Cozum + '- Ekran karti cikisi ve monitor paneli kontrol edilmeli.' + #13#10;
+      }
+
+      if Pos('klavye', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Klavye, ';
+        TahminiTutar = TahminiTutar + 515;
+        Puan = Puan + 15;
+        Cozum = Cozum + '- Klavye USB girisi, tus testi ve yedek klavye denenmeli.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Klavye tus testi > USB port testi > Klavye degisimi' + #13#10;
+      }
+
+      if Pos('mouse', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Mouse, ';
+        TahminiTutar = TahminiTutar + 350;
+        Puan = Puan + 10;
+        Cozum = Cozum + '- Mouse sensoru, kablo ve USB portu kontrol edilmeli.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Mouse testi > USB port testi > Mouse degisimi' + #13#10;
+      }
+
+      if Pos('kasa', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Kasa, ';
+        TahminiTutar = TahminiTutar + 7320;
+        Puan = Puan + 45;
+        Cozum = Cozum + '- Kasa guc sistemi, anakart, RAM ve disk baglantilari kontrol edilmeli.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Guc testi > RAM testi > Disk testi > Anakart kontrolu' + #13#10;
+      }
+
+      if Pos('internet kablosu', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Internet Kablosu, ';
+        TahminiTutar = TahminiTutar + 262;
+        Puan = Puan + 20;
+        Cozum = Cozum + '- Ethernet kablosu, switch portu ve ag ayarlari kontrol edilmeli.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Kablo testi > Switch port testi > IP/DNS kontrolu' + #13#10;
+      }
+
+      if Pos('kablo', SorunMetni) > 0
+      {
+        if Pos('Internet Kablosu', ParcaListesi) == 0
+          ParcaListesi = ParcaListesi + 'Internet Kablosu, ';
+        TahminiTutar = TahminiTutar + 262;
+        Puan = Puan + 15;
+        Cozum = Cozum + '- Kablo temassizligi ve port girisi kontrol edilmeli.' + #13#10;
+      }
+
+      if Pos('genel ariza', SorunMetni) > 0
+      {
+        ParcaListesi = ParcaListesi + 'Genel Ariza, ';
+        TahminiTutar = TahminiTutar + 180;
+        Puan = Puan + 20;
+        Cozum = Cozum + '- Genel sistem kontrolu, temizlik, kablo ve temel donanim testi yapilmali.' + #13#10;
+        KontrolListesi = KontrolListesi + 'Genel kontrol > Temizlik > Kablo kontrolu > Kullanici testi' + #13#10;
+      }
+
+      if ParcaListesi == ''
+      {
+        ParcaListesi = 'Belirsiz / Manuel kontrol gerekli';
+        TahminiTutar = 250;
+        Puan = 10;
+        Cozum = '- Sorun aciklamasi net degil. Teknik personel on inceleme yapmali.' + #13#10;
+        KontrolListesi = 'On inceleme > Kullanici gorusmesi > Fiziksel kontrol' + #13#10;
+      }
+
+      if Puan >= 70
+      {
+        Oncelik = 'Yuksek';
+        Risk = 'Kritik';
+      }
+      else
+      {
+        if Puan >= 35
+        {
+          Oncelik = 'Orta';
+          Risk = 'Dikkat';
+        }
+        else
+        {
+          Oncelik = 'Dusuk';
+          Risk = 'Normal';
+        }
+      }
+
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Musteri: ' + Clomosy.DBSQLiteQuery.FieldByName('MusteriAdi').AsString + #13#10 +
+        'Cihaz/PC: ' + Clomosy.DBSQLiteQuery.FieldByName('BilgisayarAdi').AsString + #13#10 +
+        'Kayit: ' + #13#10 + Clomosy.DBSQLiteQuery.FieldByName('SorunMetni').AsString + #13#10 +
+        'AI Tahmini Parca: ' + ParcaListesi + #13#10 +
+        'Oncelik: ' + Oncelik + #13#10 +
+        'Risk Seviyesi: ' + Risk + #13#10 +
+        'Tahmini Maliyet: ' + IntToStr(TahminiTutar) + ' TL' + #13#10 +
+        'Onerilen Cozum:' + #13#10 + Cozum +
+        'Kontrol Sirasi:' + #13#10 + KontrolListesi +
+        '--------------------------------------------------' + #13#10 + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text =
+      '🤖 GELISMIS AI ARIZA ANALIZI / KARAR DESTEK' + #13#10 +
+      '==================================================' + #13#10 + #13#10 +
+      'Bu bolum ChatGPT gibi internete baglanan bir yapay zeka degildir.' + #13#10 +
+      'Kural tabanli AI mantigi ile bekleyen arizalari analiz eder.' + #13#10 + #13#10 +
+      'Kullanim:' + #13#10 +
+      '1) Musteri arizali parcayi secip ariza kaydi olusturur.' + #13#10 +
+      '2) Admin AI ANALIZ / TAHMIN butonuna basar.' + #13#10 +
+      '3) Sistem risk, oncelik, maliyet ve cozum onerisi verir.' + #13#10 + #13#10 +
+      'Onarim icin bekleyen ariza kaydi yok.';
+
+  SQLKapat;
+}
+
+void AdminTamirEt;
+var
+  SorunID, MusteriID, Tutar, Gider, Kar: Integer;
+  MusteriAdi, PCAdi, SorunMetni, Parca: String;
+{
+  if SecilenTamirID == 0
+  {
+    ShowMessage('Lutfen once Onarim Bekleyen ekranindan bir ariza seciniz.');
+    AdminSorunlariGoster;
+    exit;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Sorunlar WHERE ID=' + IntToStr(SecilenTamirID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if not Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    ShowMessage('Secilen ariza bulunamadi veya daha once tamamlanmis.');
+    exit;
+  }
+
+  Clomosy.DBSQLiteQuery.First;
+
+  SorunID = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+  MusteriID = Clomosy.DBSQLiteQuery.FieldByName('MusteriID').AsInteger;
+  MusteriAdi = Clomosy.DBSQLiteQuery.FieldByName('MusteriAdi').AsString;
+  PCAdi = Clomosy.DBSQLiteQuery.FieldByName('BilgisayarAdi').AsString;
+  SorunMetni = LowerCase(Clomosy.DBSQLiteQuery.FieldByName('SorunMetni').AsString);
+
+  SQLKapat;
+
+  Parca = '';
+  Tutar = 0;
+  Gider = 0;
+
+  if Pos('monitor', SorunMetni) > 0
+  {
+    Parca = Parca + 'Monitor, ';
+    Tutar = Tutar + 3170;
+    Gider = Gider + 2850;
+  }
+
+  if Pos('ekran', SorunMetni) > 0
+  {
+    if Pos('Monitor', Parca) == 0
+      Parca = Parca + 'Monitor, ';
+    Tutar = Tutar + 3170;
+    Gider = Gider + 2850;
+  }
+
+  if Pos('klavye', SorunMetni) > 0
+  {
+    Parca = Parca + 'Klavye, ';
+    Tutar = Tutar + 515;
+    Gider = Gider + 450;
+  }
+
+  if Pos('mouse', SorunMetni) > 0
+  {
+    Parca = Parca + 'Mouse, ';
+    Tutar = Tutar + 350;
+    Gider = Gider + 300;
+  }
+
+  if Pos('kasa', SorunMetni) > 0
+  {
+    Parca = Parca + 'Kasa, ';
+    Tutar = Tutar + 7320;
+    Gider = Gider + 6600;
+  }
+
+  if Pos('internet kablosu', SorunMetni) > 0
+  {
+    Parca = Parca + 'Internet Kablosu, ';
+    Tutar = Tutar + 262;
+    Gider = Gider + 225;
+  }
+
+  if Pos('kablo', SorunMetni) > 0
+  {
+    if Pos('Internet Kablosu', Parca) == 0
+      Parca = Parca + 'Internet Kablosu, ';
+    Tutar = Tutar + 262;
+    Gider = Gider + 225;
+  }
+
+  if Pos('genel ariza', SorunMetni) > 0
+  {
+    Parca = Parca + 'Genel Ariza, ';
+    Tutar = Tutar + 180;
+    Gider = Gider + 120;
+  }
+
+  if Parca == ''
+  {
+    Parca = 'Manuel Kontrol';
+    Tutar = 250;
+    Gider = 100;
+  }
+
+  Kar = Tutar - Gider;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Sorunlar SET Durum=' + QuotedStr('Tamamlandi') +
+    ' WHERE ID=' + IntToStr(SorunID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Musteriler SET Bakiye = Bakiye + ' + IntToStr(Tutar) +
+    ' WHERE ID=' + IntToStr(MusteriID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Muhasebe SET ToplamGelir = ToplamGelir + ' + IntToStr(Tutar) +
+    ', ToplamGider = ToplamGider + ' + IntToStr(Gider) +
+    ', NetKar = NetKar + ' + IntToStr(Kar) +
+    ' WHERE ID=1';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Islemler VALUES (NULL,' +
+    QuotedStr(MusteriAdi) + ',' +
+    QuotedStr(PCAdi) + ',' +
+    QuotedStr(Parca) + ',' +
+    IntToStr(Tutar) + ',' +
+    IntToStr(Kar) + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Secilen ariza tamamlandi ve kayit gecmise eklendi.');
+  AdminSorunlariGoster;
+}
+
+void AdminStokGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '📦 STOK' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Stok';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        Clomosy.DBSQLiteQuery.FieldByName('ParcaAdi').AsString +
+        ' | Adet: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('Adet').AsInteger) +
+        ' | Alis: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('AlisFiyat').AsInteger) + ' TL' +
+        #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+
+  SQLKapat;
+}
+
+void AdminMuhasebe;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Muhasebe WHERE ID=1';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    MemoSonuc.Text =
+      '💰 MUHASEBE' + #13#10 + #13#10 +
+      'Toplam Gelir: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('ToplamGelir').AsInteger) + ' TL' + #13#10 +
+      'Toplam Gider: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('ToplamGider').AsInteger) + ' TL' + #13#10 +
+      'Net Kar: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('NetKar').AsInteger) + ' TL';
+  }
+
+  SQLKapat;
+}
+
+void AdminGecmis;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '📜 TAMIR GECMISI' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Islemler ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        Clomosy.DBSQLiteQuery.FieldByName('MusteriAdi').AsString +
+        ' | ' +
+        Clomosy.DBSQLiteQuery.FieldByName('BilgisayarAdi').AsString +
+        ' | ' +
+        Clomosy.DBSQLiteQuery.FieldByName('ParcaAdi').AsString +
+        ' | Tutar: ' +
+        IntToStr(Clomosy.DBSQLiteQuery.FieldByName('ToplamTutar').AsInteger) +
+        ' | Kar: ' +
+        IntToStr(Clomosy.DBSQLiteQuery.FieldByName('Kar').AsInteger) +
+        #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Henuz tamir gecmisi yok.';
+
+  SQLKapat;
+}
+
+void CihazKayitEkrani;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+
+  EditCihazAdi.Visible = True;
+  EditKategori.Visible = True;
+  EditSeriNo.Visible = True;
+  EditKonum.Visible = True;
+  EditDurum.Visible = True;
+  BtnCihazKaydet.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditCihazAdi.Text = '';
+  EditKategori.Text = '';
+  EditSeriNo.Text = '';
+  EditKonum.Text = '';
+  EditDurum.Text = 'Aktif';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '💻 CIHAZ KAYIT EKRANI' + #13#10 + #13#10 +
+    'Durum ornekleri: Aktif, Bakimda, Arizali, Kullanim Disi, Zimmetli';
+}
+
+void CihazKaydet;
+{
+  if EditCihazAdi.Text == ''
+  {
+    ShowMessage('Cihaz adi bos olamaz!');
+    exit;
+  }
+
+  if EditKategori.Text == ''
+    EditKategori.Text = 'Genel';
+
+  if EditSeriNo.Text == ''
+    EditSeriNo.Text = 'Seri yok';
+
+  if EditKonum.Text == ''
+    EditKonum.Text = 'Lab';
+
+  if EditDurum.Text == ''
+    EditDurum.Text = 'Aktif';
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Cihazlar (CihazAdi,Kategori,SeriNo,Konum,Durum) VALUES (' +
+    QuotedStr(EditCihazAdi.Text) + ',' +
+    QuotedStr(EditKategori.Text) + ',' +
+    QuotedStr(EditSeriNo.Text) + ',' +
+    QuotedStr(EditKonum.Text) + ',' +
+    QuotedStr(EditDurum.Text) + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Cihaz kaydedildi. Cihaz envanteri menusunden listeyi gorebilirsin.');
+  AdminPanel;
+}
+
+void AdminCihazlariGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '💻 CIHAZLAR' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Cihazlar ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Cihaz: ' + Clomosy.DBSQLiteQuery.FieldByName('CihazAdi').AsString + #13#10 +
+        'Kategori: ' + Clomosy.DBSQLiteQuery.FieldByName('Kategori').AsString + #13#10 +
+        'Seri No: ' + Clomosy.DBSQLiteQuery.FieldByName('SeriNo').AsString + #13#10 +
+        'Konum: ' + Clomosy.DBSQLiteQuery.FieldByName('Konum').AsString + #13#10 +
+        'Durum: ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString + #13#10 +
+        '------------------------' + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Kayitli cihaz yok.';
+
+  SQLKapat;
+}
+
+void BakimEkrani;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+
+  EditCihazAdi.Visible = True;
+  EditBakimTipi.Visible = True;
+  EditBakimAciklama.Visible = True;
+  EditBakimMaliyet.Visible = True;
+  BtnBakimKaydet.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditCihazAdi.Text = '';
+  EditBakimTipi.Text = 'Periyodik Bakim';
+  EditBakimAciklama.Text = '';
+  EditBakimMaliyet.Text = '0';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '🔧 BAKIM KAYDI OLUSTUR' + #13#10 + #13#10 +
+    'Bakim tipi ornekleri: Periyodik Bakim, Ariza Bakimi, Parca Degisimi, Kontrol';
+}
+
+void BakimKaydet;
+var
+  Maliyet: Integer;
+{
+  if EditCihazAdi.Text == ''
+  {
+    ShowMessage('Cihaz adi bos olamaz!');
+    exit;
+  }
+
+  if EditBakimTipi.Text == ''
+    EditBakimTipi.Text = 'Kontrol';
+
+  if EditBakimAciklama.Text == ''
+    EditBakimAciklama.Text = 'Bakim kaydi girildi.';
+
+  if EditBakimMaliyet.Text == ''
+    EditBakimMaliyet.Text = '0';
+
+  Maliyet = StrToInt(EditBakimMaliyet.Text);
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Bakimlar (CihazAdi,BakimTipi,Aciklama,Maliyet,Durum) VALUES (' +
+    QuotedStr(EditCihazAdi.Text) + ',' +
+    QuotedStr(EditBakimTipi.Text) + ',' +
+    QuotedStr(EditBakimAciklama.Text) + ',' +
+    IntToStr(Maliyet) + ',' +
+    QuotedStr('Kaydedildi') + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Cihazlar SET Durum=' + QuotedStr('Bakimda') +
+    ' WHERE CihazAdi=' + QuotedStr(EditCihazAdi.Text);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Muhasebe SET ToplamGider = ToplamGider + ' + IntToStr(Maliyet) +
+    ', NetKar = NetKar - ' + IntToStr(Maliyet) +
+    ' WHERE ID=1';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Bakim kaydi olusturuldu ve cihaz Bakimda durumuna alindi. Bakim kayitlari menusunden listeyi gorebilirsin.');
+  AdminPanel;
+}
+
+void BakimlariGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '🧰 BAKIM KAYITLARI' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Bakimlar ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Cihaz: ' + Clomosy.DBSQLiteQuery.FieldByName('CihazAdi').AsString + #13#10 +
+        'Bakim Tipi: ' + Clomosy.DBSQLiteQuery.FieldByName('BakimTipi').AsString + #13#10 +
+        'Aciklama: ' + Clomosy.DBSQLiteQuery.FieldByName('Aciklama').AsString + #13#10 +
+        'Maliyet: ' + IntToStr(Clomosy.DBSQLiteQuery.FieldByName('Maliyet').AsInteger) + ' TL' + #13#10 +
+        'Durum: ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString + #13#10 +
+        '------------------------' + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Henuz bakim kaydi yok.';
+
+  SQLKapat;
+}
+
+void MusteriTalepEkrani;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'MusteriPanel';
+
+  EditCihazAdi.Visible = True;
+  EditTalep.Visible = True;
+  BtnTalepGonder.Visible = True;
+  BtnGeri.Visible = True;
+
+  EditCihazAdi.Text = '';
+  EditTalep.Text = '';
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text =
+    '📌 CIHAZ TALEBI OLUSTUR' + #13#10 + #13#10 +
+    'Ornek: Santrifuj-01 cihazini proje calismasi icin kullanmak istiyorum.';
+}
+
+void TalepGonder;
+{
+  if EditCihazAdi.Text == ''
+  {
+    ShowMessage('Cihaz adi giriniz!');
+    exit;
+  }
+
+  if EditTalep.Text == ''
+  {
+    ShowMessage('Talep aciklamasi giriniz!');
+    exit;
+  }
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'INSERT INTO Talepler (MusteriID,MusteriAdi,CihazAdi,TalepMetni,Durum) VALUES (' +
+    IntToStr(AktifMusteriID) + ',' +
+    QuotedStr(AktifMusteriAdi) + ',' +
+    QuotedStr(EditCihazAdi.Text) + ',' +
+    QuotedStr(EditTalep.Text) + ',' +
+    QuotedStr('Bekliyor') + ')';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Cihaz talebiniz yoneticiye gonderildi.');
+  MusteriPanel;
+}
+
+void MusteriTaleplerimiGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'MusteriPanel';
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '📌 TALEPLERIM' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Talepler WHERE MusteriID=' + IntToStr(AktifMusteriID) + ' ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Cihaz: ' + Clomosy.DBSQLiteQuery.FieldByName('CihazAdi').AsString + #13#10 +
+        'Talep: ' + Clomosy.DBSQLiteQuery.FieldByName('TalepMetni').AsString + #13#10 +
+        'Durum: ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString + #13#10 +
+        '------------------------' + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Henuz talep yok.';
+
+  SQLKapat;
+}
+
+void AdminTalepleriGoster;
+{
+  HerSeyiGizle;
+  MemoSonuc.Visible = True;
+
+  GeriHedef = 'AdminPanel';
+  BtnTalepOnayla.Visible = True;
+  BtnGeri.Visible = True;
+
+  Form1.SetFormColor('#07111F', '#10233F', clGCross);
+
+  MemoSonuc.Text = '📌 TALEPLER' + #13#10 + #13#10;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text = 'SELECT * FROM Talepler ORDER BY ID DESC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if Clomosy.DBSQLiteQuery.Found
+  {
+    Clomosy.DBSQLiteQuery.First;
+
+    while (not Clomosy.DBSQLiteQuery.Eof)
+    {
+      MemoSonuc.Text =
+        MemoSonuc.Text +
+        'Musteri: ' + Clomosy.DBSQLiteQuery.FieldByName('MusteriAdi').AsString + #13#10 +
+        'Cihaz: ' + Clomosy.DBSQLiteQuery.FieldByName('CihazAdi').AsString + #13#10 +
+        'Talep: ' + Clomosy.DBSQLiteQuery.FieldByName('TalepMetni').AsString + #13#10 +
+        'Durum: ' + Clomosy.DBSQLiteQuery.FieldByName('Durum').AsString + #13#10 +
+        '------------------------' + #13#10;
+
+      Clomosy.DBSQLiteQuery.Next;
+    }
+  }
+  else
+    MemoSonuc.Text = MemoSonuc.Text + 'Talep yok.';
+
+  SQLKapat;
+}
+
+void TalepOnayla;
+var
+  TalepID: Integer;
+  CihazAdi: String;
+{
+  TalepID = 0;
+  CihazAdi = '';
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'SELECT * FROM Talepler WHERE Durum=' + QuotedStr('Bekliyor') + ' ORDER BY ID ASC';
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  if not Clomosy.DBSQLiteQuery.Found
+  {
+    SQLKapat;
+    ShowMessage('Bekleyen talep yok.');
+    exit;
+  }
+
+  Clomosy.DBSQLiteQuery.First;
+  TalepID = Clomosy.DBSQLiteQuery.FieldByName('ID').AsInteger;
+  CihazAdi = Clomosy.DBSQLiteQuery.FieldByName('CihazAdi').AsString;
+  SQLKapat;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Talepler SET Durum=' + QuotedStr('Onaylandi') +
+    ' WHERE ID=' + IntToStr(TalepID);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+
+  SQLKapat;
+  Clomosy.DBSQLiteQuery.Sql.Text =
+    'UPDATE Cihazlar SET Durum=' + QuotedStr('Zimmetli') +
+    ' WHERE CihazAdi=' + QuotedStr(CihazAdi);
+  Clomosy.DBSQLiteQuery.OpenOrExecute;
+  SQLKapat;
+
+  ShowMessage('Ilk bekleyen talep onaylandi. Cihaz varsa Zimmetli durumuna alindi.');
+  AdminTalepleriGoster;
+}
+
+void GeriDon;
+{
+  if GeriHedef == 'AdminPanel'
+    AdminPanel;
+  else
+  {
+    if GeriHedef == 'MusteriPanel'
+      MusteriPanel;
+    else
+      AnaSayfa;
+  }
+}
+
+void CikisYap;
+{
+  AktifMusteriID = 0;
+  AktifMusteriAdi = '';
+  GirisTipi = '';
+  GeriHedef = 'AnaSayfa';
+  AnaSayfa;
+}
+
+{
+  VeritabaniHazirla;
+  IlkVeriYukle;
+
+  SQLKapat;
+
+  Form1 = TclForm.Create(Self);
+  Form1.clSetCaption('Clomosy Lab Management System');
+
+  BtnAdminSec = Form1.AddNewProButton(Form1, 'BtnAdminSec', '🧑‍💼 ADMIN PANELI');
+  BtnAdminSec.Align = alTop;
+  BtnAdminSec.Height = 92;
+
+  BtnMusteriSec = Form1.AddNewProButton(Form1, 'BtnMusteriSec', '👤 KULLANICI PANELI');
+  BtnMusteriSec.Align = alTop;
+  BtnMusteriSec.Height = 92;
+
+  BtnKayitSec = Form1.AddNewProButton(Form1, 'BtnKayitSec', '📝 YENI KULLANICI');
+  BtnKayitSec.Align = alTop;
+  BtnKayitSec.Height = 92;
+
+  EditAd = Form1.AddNewProEdit(Form1, 'EditAd', 'Ad');
+  EditAd.Align = alTop;
+  EditAd.Height = 52;
+
+  EditKullanici = Form1.AddNewProEdit(Form1, 'EditKullanici', 'Kullanici adi');
+  EditKullanici.Align = alTop;
+  EditKullanici.Height = 52;
+
+  EditSifre = Form1.AddNewProEdit(Form1, 'EditSifre', 'Sifre');
+  EditSifre.Align = alTop;
+  EditSifre.Height = 52;
+  EditSifre.Password = True;
+
+  BtnSifreGoster = Form1.AddNewProButton(Form1, 'BtnSifreGoster', '👁️ SIFREYI GOSTER');
+  BtnSifreGoster.Align = alTop;
+  BtnSifreGoster.Height = 42;
+
+  EditPC = Form1.AddNewProEdit(Form1, 'EditPC', 'PC adi');
+  EditPC.Align = alTop;
+  EditPC.Height = 52;
+  EditSecilenCihaz = Form1.AddNewProEdit(Form1, 'EditSecilenCihaz', 'Secilen cihaz');
+  EditSecilenCihaz.Align = alTop;
+  EditSecilenCihaz.Height = 34;
+
+  EditSecilenParcalar = Form1.AddNewProEdit(Form1, 'EditSecilenParcalar', 'Secilen arizali parcalar');
+  EditSecilenParcalar.Align = alTop;
+  EditSecilenParcalar.Height = 34;
+
+  BtnKartPC = Form1.AddNewProButton(Form1, 'BtnKartPC', '☐ 💻 Quantum Core PC-01 | Bilgisayar / Kasa');
+  BtnKartPC.Align = alTop;
+  BtnKartPC.Height = 33;
+
+  BtnKartSantrifuj = Form1.AddNewProButton(Form1, 'BtnKartSantrifuj', '☐ 🧪 Quantum Santrifuj-01 | Santrifuj');
+  BtnKartSantrifuj.Align = alTop;
+  BtnKartSantrifuj.Height = 33;
+
+  BtnKartSwitch = Form1.AddNewProButton(Form1, 'BtnKartSwitch', '☐ 🌐 Network Switch-01 | Ag Cihazi');
+  BtnKartSwitch.Align = alTop;
+  BtnKartSwitch.Height = 33;
+
+  BtnKartKasa = Form1.AddNewProButton(Form1, 'BtnKartKasa', '☐ 🖥️ Gaming Kasa-01 | Bilgisayar Kasasi');
+  BtnKartKasa.Align = alTop;
+  BtnKartKasa.Height = 33;
+
+  BtnKartMouse = Form1.AddNewProButton(Form1, 'BtnKartMouse', '☐ 🖱️ Mouse-01 | Mouse');
+  BtnKartMouse.Align = alTop;
+  BtnKartMouse.Height = 33;
+
+  BtnKartKlavye = Form1.AddNewProButton(Form1, 'BtnKartKlavye', '☐ ⌨️ Klavye-01 | Klavye');
+  BtnKartKlavye.Align = alTop;
+  BtnKartKlavye.Height = 33;
+
+  BtnKartMonitor = Form1.AddNewProButton(Form1, 'BtnKartMonitor', '☐ 🖥️ Monitor-01 | Monitor / Ekran');
+  BtnKartMonitor.Align = alTop;
+  BtnKartMonitor.Height = 33;
+
+  BtnKartSet = Form1.AddNewProButton(Form1, 'BtnKartSet', '☐ 💻 Masaustu Set-01 | Tam Bilgisayar Seti');
+  BtnKartSet.Align = alTop;
+  BtnKartSet.Height = 33;
+
+  BtnParcaMonitorKart = Form1.AddNewProButton(Form1, 'BtnParcaMonitorKart', '☐ 🖥️ MONITOR');
+  BtnParcaMonitorKart.Align = alTop;
+  BtnParcaMonitorKart.Height = 31;
+
+  BtnParcaKlavyeKart = Form1.AddNewProButton(Form1, 'BtnParcaKlavyeKart', '☐ ⌨️ KLAVYE');
+  BtnParcaKlavyeKart.Align = alTop;
+  BtnParcaKlavyeKart.Height = 31;
+
+  BtnParcaMouseKart = Form1.AddNewProButton(Form1, 'BtnParcaMouseKart', '☐ 🖱️ MOUSE');
+  BtnParcaMouseKart.Align = alTop;
+  BtnParcaMouseKart.Height = 31;
+
+  BtnParcaKasaKart = Form1.AddNewProButton(Form1, 'BtnParcaKasaKart', '☐ 🧰 KASA');
+  BtnParcaKasaKart.Align = alTop;
+  BtnParcaKasaKart.Height = 31;
+
+  BtnParcaKabloKart = Form1.AddNewProButton(Form1, 'BtnParcaKabloKart', '☐ 🔌 INTERNET KABLOSU');
+  BtnParcaKabloKart.Align = alTop;
+  BtnParcaKabloKart.Height = 31;
+
+  BtnParcaGenelKart = Form1.AddNewProButton(Form1, 'BtnParcaGenelKart', '☐ ⚠️ GENEL ARIZA');
+  BtnParcaGenelKart.Align = alTop;
+  BtnParcaGenelKart.Height = 31;
+
+  ImgCihazPC = Form1.AddNewImage(Form1, 'ImgCihazPC');
+  ImgCihazPC.Align = alTop;
+  ImgCihazPC.Height = 135;
+
+  ChkCihazPC = Form1.AddNewCheckBox(Form1, 'ChkCihazPC', '🖥️ Quantum Core PC-01 | Bilgisayar / Kasa');
+  ChkCihazPC.Align = alTop;
+  ChkCihazPC.Height = 58;
+
+  ImgCihazSantrifuj = Form1.AddNewImage(Form1, 'ImgCihazSantrifuj');
+  ImgCihazSantrifuj.Align = alTop;
+  ImgCihazSantrifuj.Height = 135;
+
+  ChkCihazSantrifuj = Form1.AddNewCheckBox(Form1, 'ChkCihazSantrifuj', '🧪 Quantum Santrifuj-01 | Santrifuj / Veri Unitesi');
+  ChkCihazSantrifuj.Align = alTop;
+  ChkCihazSantrifuj.Height = 58;
+
+  ImgCihazSwitch = Form1.AddNewImage(Form1, 'ImgCihazSwitch');
+  ImgCihazSwitch.Align = alTop;
+  ImgCihazSwitch.Height = 135;
+
+  ChkCihazSwitch = Form1.AddNewCheckBox(Form1, 'ChkCihazSwitch', '🌐 Network Switch-01 | Ag Switch / Kablo Portlari');
+  ChkCihazSwitch.Align = alTop;
+  ChkCihazSwitch.Height = 58;
+
+  ImgCihazKasa = Form1.AddNewImage(Form1, 'ImgCihazKasa');
+  ImgCihazKasa.Align = alTop;
+  ImgCihazKasa.Height = 135;
+
+  ChkCihazKasa = Form1.AddNewCheckBox(Form1, 'ChkCihazKasa', '🖥️ Gaming Kasa-01 | Bilgisayar Kasasi');
+  ChkCihazKasa.Align = alTop;
+  ChkCihazKasa.Height = 58;
+
+  ImgCihazMouse = Form1.AddNewImage(Form1, 'ImgCihazMouse');
+  ImgCihazMouse.Align = alTop;
+  ImgCihazMouse.Height = 135;
+
+  ChkCihazMouse = Form1.AddNewCheckBox(Form1, 'ChkCihazMouse', '🖱️ Mouse-01 | Mouse');
+  ChkCihazMouse.Align = alTop;
+  ChkCihazMouse.Height = 58;
+
+  ImgCihazKlavye = Form1.AddNewImage(Form1, 'ImgCihazKlavye');
+  ImgCihazKlavye.Align = alTop;
+  ImgCihazKlavye.Height = 135;
+
+  ChkCihazKlavye = Form1.AddNewCheckBox(Form1, 'ChkCihazKlavye', '⌨️ Klavye-01 | Klavye');
+  ChkCihazKlavye.Align = alTop;
+  ChkCihazKlavye.Height = 58;
+
+  ImgCihazMonitor = Form1.AddNewImage(Form1, 'ImgCihazMonitor');
+  ImgCihazMonitor.Align = alTop;
+  ImgCihazMonitor.Height = 135;
+
+  ChkCihazMonitor = Form1.AddNewCheckBox(Form1, 'ChkCihazMonitor', '🖥️ Monitor-01 | Monitor / Ekran');
+  ChkCihazMonitor.Align = alTop;
+  ChkCihazMonitor.Height = 58;
+
+  ImgCihazSet = Form1.AddNewImage(Form1, 'ImgCihazSet');
+  ImgCihazSet.Align = alTop;
+  ImgCihazSet.Height = 135;
+
+  ChkCihazSet = Form1.AddNewCheckBox(Form1, 'ChkCihazSet', '💻 Masaustu Set-01 | Monitor + Kasa + Klavye + Mouse');
+  ChkCihazSet.Align = alTop;
+  ChkCihazSet.Height = 58;
+
+
+  ChkMonitor = Form1.AddNewCheckBox(Form1, 'ChkMonitor', '🖥️  MONITOR');
+  ChkMonitor.Align = alTop;
+  ChkMonitor.Height = 58;
+
+  ChkKlavye = Form1.AddNewCheckBox(Form1, 'ChkKlavye', '⌨️  KLAVYE');
+  ChkKlavye.Align = alTop;
+  ChkKlavye.Height = 58;
+
+  ChkMouse = Form1.AddNewCheckBox(Form1, 'ChkMouse', '🖱️  MOUSE');
+  ChkMouse.Align = alTop;
+  ChkMouse.Height = 58;
+
+  ChkKasa = Form1.AddNewCheckBox(Form1, 'ChkKasa', '🧰  KASA');
+  ChkKasa.Align = alTop;
+  ChkKasa.Height = 58;
+
+  ChkKablo = Form1.AddNewCheckBox(Form1, 'ChkKablo', '🔌  INTERNET KABLOSU');
+  ChkKablo.Align = alTop;
+  ChkKablo.Height = 58;
+
+  ChkGenelAriza = Form1.AddNewCheckBox(Form1, 'ChkGenelAriza', '⚠️  GENEL ARIZA');
+  ChkGenelAriza.Align = alTop;
+  ChkGenelAriza.Height = 58;
+
+  BtnHepsiniSec = Form1.AddNewProButton(Form1, 'BtnHepsiniSec', '✅ HEPSINI SEC / TEMIZLE');
+  BtnHepsiniSec.Align = alTop;
+  BtnHepsiniSec.Height = 32;
+
+  EditSorun = Form1.AddNewProEdit(Form1, 'EditSorun', 'Ek not (istege bagli)');
+  EditSorun.Align = alTop;
+  EditSorun.Height = 36;
+
+  EditBakiye = Form1.AddNewProEdit(Form1, 'EditBakiye', 'Yuklenecek bakiye');
+  EditBakiye.Align = alTop;
+  EditBakiye.Height = 52;
+
+  EditCihazAdi = Form1.AddNewProEdit(Form1, 'EditCihazAdi', 'Cihaz adi');
+  EditCihazAdi.Align = alTop;
+  EditCihazAdi.Height = 52;
+
+  EditKategori = Form1.AddNewProEdit(Form1, 'EditKategori', 'Kategori');
+  EditKategori.Align = alTop;
+  EditKategori.Height = 52;
+
+  EditSeriNo = Form1.AddNewProEdit(Form1, 'EditSeriNo', 'Seri no');
+  EditSeriNo.Align = alTop;
+  EditSeriNo.Height = 52;
+
+  EditKonum = Form1.AddNewProEdit(Form1, 'EditKonum', 'Konum');
+  EditKonum.Align = alTop;
+  EditKonum.Height = 52;
+
+  EditDurum = Form1.AddNewProEdit(Form1, 'EditDurum', 'Durum');
+  EditDurum.Align = alTop;
+  EditDurum.Height = 52;
+
+  EditBakimTipi = Form1.AddNewProEdit(Form1, 'EditBakimTipi', 'Bakim tipi');
+  EditBakimTipi.Align = alTop;
+  EditBakimTipi.Height = 52;
+
+  EditBakimAciklama = Form1.AddNewProEdit(Form1, 'EditBakimAciklama', 'Bakim aciklamasi');
+  EditBakimAciklama.Align = alTop;
+  EditBakimAciklama.Height = 52;
+
+  EditBakimMaliyet = Form1.AddNewProEdit(Form1, 'EditBakimMaliyet', 'Bakim maliyeti');
+  EditBakimMaliyet.Align = alTop;
+  EditBakimMaliyet.Height = 52;
+
+  EditTalep = Form1.AddNewProEdit(Form1, 'EditTalep', 'Talep aciklamasi');
+  EditTalep.Align = alTop;
+  EditTalep.Height = 52;
+
+  BtnGirisYap = Form1.AddNewProButton(Form1, 'BtnGirisYap', '🔐 GIRIS YAP');
+  BtnGirisYap.Align = alTop;
+  BtnGirisYap.Height = 66;
+
+  BtnKayitYap = Form1.AddNewProButton(Form1, 'BtnKayitYap', '✅ KAYIT OL');
+  BtnKayitYap.Align = alTop;
+  BtnKayitYap.Height = 66;
+
+  BtnAdminDashboard = Form1.AddNewProButton(Form1, 'BtnAdminDashboard', '📊 DASHBOARD');
+  BtnAdminDashboard.Align = alTop;
+  BtnAdminDashboard.Height = 38;
+
+  BtnSorunGonder = Form1.AddNewProButton(Form1, 'BtnSorunGonder', '✅ ARIZAYI ONAYLA');
+  BtnSorunGonder.Align = alTop;
+  BtnSorunGonder.Height = 42;
+
+  BtnMusteriSorunBildir = Form1.AddNewProButton(Form1, 'BtnMusteriSorunBildir', '🧩 ARIZA BILDIR');
+  BtnMusteriSorunBildir.Align = alTop;
+  BtnMusteriSorunBildir.Height = 44;
+
+  BtnMusteriSorunlar = Form1.AddNewProButton(Form1, 'BtnMusteriSorunlar', '📋 BENIM SORUNLARIM');
+  BtnMusteriSorunlar.Align = alTop;
+  BtnMusteriSorunlar.Height = 44;
+
+  BtnMusteriTalep = Form1.AddNewProButton(Form1, 'BtnMusteriTalep', '📌 CIHAZ TALEBI OLUSTUR');
+  BtnMusteriTalep.Align = alTop;
+  BtnMusteriTalep.Height = 44;
+
+  BtnMusteriTalepler = Form1.AddNewProButton(Form1, 'BtnMusteriTalepler', '📌 TALEPLERIM');
+  BtnMusteriTalepler.Align = alTop;
+  BtnMusteriTalepler.Height = 44;
+
+  BtnTalepGonder = Form1.AddNewProButton(Form1, 'BtnTalepGonder', '📌 TALEP GONDER');
+  BtnTalepGonder.Align = alTop;
+  BtnTalepGonder.Height = 46;
+
+  BtnMusteriBakiye = Form1.AddNewProButton(Form1, 'BtnMusteriBakiye', '💳 BAKIYE');
+  BtnMusteriBakiye.Align = alTop;
+  BtnMusteriBakiye.Height = 44;
+
+  BtnBakiyeYukleGit = Form1.AddNewProButton(Form1, 'BtnBakiyeYukleGit', '➕ BAKIYE YUKLE');
+  BtnBakiyeYukleGit.Align = alTop;
+  BtnBakiyeYukleGit.Height = 44;
+
+  BtnBakiyeYukleOnay = Form1.AddNewProButton(Form1, 'BtnBakiyeYukleOnay', '💰 ONAYLA');
+  BtnBakiyeYukleOnay.Align = alTop;
+  BtnBakiyeYukleOnay.Height = 46;
+
+  BtnBekleyen1 = Form1.AddNewProButton(Form1, 'BtnBekleyen1', 'Bos');
+  BtnBekleyen1.Align = alTop;
+  BtnBekleyen1.Height = 58;
+
+  BtnBekleyen2 = Form1.AddNewProButton(Form1, 'BtnBekleyen2', 'Bos');
+  BtnBekleyen2.Align = alTop;
+  BtnBekleyen2.Height = 58;
+
+  BtnBekleyen3 = Form1.AddNewProButton(Form1, 'BtnBekleyen3', 'Bos');
+  BtnBekleyen3.Align = alTop;
+  BtnBekleyen3.Height = 58;
+
+  BtnBekleyen4 = Form1.AddNewProButton(Form1, 'BtnBekleyen4', 'Bos');
+  BtnBekleyen4.Align = alTop;
+  BtnBekleyen4.Height = 58;
+
+  BtnBekleyen5 = Form1.AddNewProButton(Form1, 'BtnBekleyen5', 'Bos');
+  BtnBekleyen5.Align = alTop;
+  BtnBekleyen5.Height = 58;
+
+  BtnAdminSorunlar = Form1.AddNewProButton(Form1, 'BtnAdminSorunlar', '🛠️ ONARIM BEKLEYEN');
+  BtnAdminSorunlar.Align = alTop;
+  BtnAdminSorunlar.Height = 38;
+
+  BtnAIAnaliz = Form1.AddNewProButton(Form1, 'BtnAIAnaliz', '🤖 AI ANALIZ / KARAR DESTEK');
+  BtnAIAnaliz.Align = alTop;
+  BtnAIAnaliz.Height = 38;
+
+  BtnAdminTamirEt = Form1.AddNewProButton(Form1, 'BtnAdminTamirEt', '🔧 TAMIR ET');
+  BtnAdminTamirEt.Align = alTop;
+  BtnAdminTamirEt.Height = 38;
+
+  BtnAdminCihazlar = Form1.AddNewProButton(Form1, 'BtnAdminCihazlar', '💻 CIHAZLAR');
+  BtnAdminCihazlar.Align = alTop;
+  BtnAdminCihazlar.Height = 38;
+
+  BtnCihazKaydetGit = Form1.AddNewProButton(Form1, 'BtnCihazKaydetGit', '➕ CIHAZ EKLE');
+  BtnCihazKaydetGit.Align = alTop;
+  BtnCihazKaydetGit.Height = 38;
+
+  BtnCihazKaydet = Form1.AddNewProButton(Form1, 'BtnCihazKaydet', '✅ CIHAZI KAYDET');
+  BtnCihazKaydet.Align = alTop;
+  BtnCihazKaydet.Height = 46;
+
+  BtnAdminBakim = Form1.AddNewProButton(Form1, 'BtnAdminBakim', '🔧 BAKIM KAYDI');
+  BtnAdminBakim.Align = alTop;
+  BtnAdminBakim.Height = 38;
+
+  BtnBakimKaydet = Form1.AddNewProButton(Form1, 'BtnBakimKaydet', '✅ BAKIMI KAYDET');
+  BtnBakimKaydet.Align = alTop;
+  BtnBakimKaydet.Height = 46;
+
+  BtnAdminTalepler = Form1.AddNewProButton(Form1, 'BtnAdminTalepler', '📌 TALEPLER');
+  BtnAdminTalepler.Align = alTop;
+  BtnAdminTalepler.Height = 38;
+
+  BtnTalepOnayla = Form1.AddNewProButton(Form1, 'BtnTalepOnayla', '✅ ILK BEKLEYEN TALEBI ONAYLA');
+  BtnTalepOnayla.Align = alTop;
+  BtnTalepOnayla.Height = 46;
+
+  BtnAdminStok = Form1.AddNewProButton(Form1, 'BtnAdminStok', '📦 STOK');
+  BtnAdminStok.Align = alTop;
+  BtnAdminStok.Height = 38;
+
+  BtnAdminBakiye = Form1.AddNewProButton(Form1, 'BtnAdminBakiye', '💰 MUHASEBE');
+  BtnAdminBakiye.Align = alTop;
+  BtnAdminBakiye.Height = 38;
+
+  BtnAdminGecmis = Form1.AddNewProButton(Form1, 'BtnAdminGecmis', '📜 GECMIS');
+  BtnAdminGecmis.Align = alTop;
+  BtnAdminGecmis.Height = 38;
+
+  BtnGeri = Form1.AddNewProButton(Form1, 'BtnGeri', '⬅️ GERI');
+  BtnGeri.Align = alTop;
+  BtnGeri.Height = 42;
+
+  BtnCikis = Form1.AddNewProButton(Form1, 'BtnCikis', '🚪 CIKIS');
+  BtnCikis.Align = alTop;
+  BtnCikis.Height = 44;
+
+  MemoSonuc = Form1.AddNewMemo(Form1, 'MemoSonuc', '');
+  MemoSonuc.Align = alClient;
+  MemoSonuc.ReadOnly = True;
+  clComponent.SetupComponent(MemoSonuc, '{"BackgroundColor":"#0F172A", "TextColor":"#FFFFFF", "TextSize":16, "BorderColor":"#1E3A8A", "BorderWidth":2, "RoundHeight":16, "RoundWidth":16, "MarginLeft":16, "MarginRight":16, "MarginTop":10, "MarginBottom":14}');
+
+  StilVer;
+
+  Form1.AddNewEvent(BtnAdminSec, tbeOnClick, 'AdminGirisEkrani');
+  Form1.AddNewEvent(BtnMusteriSec, tbeOnClick, 'MusteriGirisEkrani');
+  Form1.AddNewEvent(BtnKayitSec, tbeOnClick, 'MusteriKayitEkrani');
+  Form1.AddNewEvent(BtnGirisYap, tbeOnClick, 'GirisYap');
+  Form1.AddNewEvent(BtnKayitYap, tbeOnClick, 'MusteriKayitYap');
+
+  Form1.AddNewEvent(BtnAdminDashboard, tbeOnClick, 'AdminDashboard');
+  Form1.AddNewEvent(BtnAdminSorunlar, tbeOnClick, 'AdminSorunlariGoster');
+  Form1.AddNewEvent(BtnBekleyen1, tbeOnClick, 'Bekleyen1Sec');
+  Form1.AddNewEvent(BtnBekleyen2, tbeOnClick, 'Bekleyen2Sec');
+  Form1.AddNewEvent(BtnBekleyen3, tbeOnClick, 'Bekleyen3Sec');
+  Form1.AddNewEvent(BtnBekleyen4, tbeOnClick, 'Bekleyen4Sec');
+  Form1.AddNewEvent(BtnBekleyen5, tbeOnClick, 'Bekleyen5Sec');
+  Form1.AddNewEvent(BtnAIAnaliz, tbeOnClick, 'AIArizaAnalizi');
+  Form1.AddNewEvent(BtnAdminTamirEt, tbeOnClick, 'AdminTamirEt');
+  Form1.AddNewEvent(BtnAdminCihazlar, tbeOnClick, 'AdminCihazlariGoster');
+  Form1.AddNewEvent(BtnCihazKaydetGit, tbeOnClick, 'CihazKayitEkrani');
+  Form1.AddNewEvent(BtnCihazKaydet, tbeOnClick, 'CihazKaydet');
+  Form1.AddNewEvent(BtnAdminBakim, tbeOnClick, 'BakimEkrani');
+  Form1.AddNewEvent(BtnBakimKaydet, tbeOnClick, 'BakimKaydet');
+  Form1.AddNewEvent(BtnAdminTalepler, tbeOnClick, 'AdminTalepleriGoster');
+  Form1.AddNewEvent(BtnTalepOnayla, tbeOnClick, 'TalepOnayla');
+  Form1.AddNewEvent(BtnAdminStok, tbeOnClick, 'AdminStokGoster');
+  Form1.AddNewEvent(BtnAdminBakiye, tbeOnClick, 'AdminMuhasebe');
+  Form1.AddNewEvent(BtnAdminGecmis, tbeOnClick, 'AdminGecmis');
+
+  Form1.AddNewEvent(BtnMusteriSorunBildir, tbeOnClick, 'MusteriSorunEkrani');
+  Form1.AddNewEvent(BtnSorunGonder, tbeOnClick, 'SorunGonder');
+  Form1.AddNewEvent(BtnKartPC, tbeOnClick, 'CihazPCTikla');
+  Form1.AddNewEvent(BtnKartSantrifuj, tbeOnClick, 'CihazSantrifujTikla');
+  Form1.AddNewEvent(BtnKartSwitch, tbeOnClick, 'CihazSwitchTikla');
+  Form1.AddNewEvent(BtnKartKasa, tbeOnClick, 'CihazKasaTikla');
+  Form1.AddNewEvent(BtnKartMouse, tbeOnClick, 'CihazMouseTikla');
+  Form1.AddNewEvent(BtnKartKlavye, tbeOnClick, 'CihazKlavyeTikla');
+  Form1.AddNewEvent(BtnKartMonitor, tbeOnClick, 'CihazMonitorTikla');
+  Form1.AddNewEvent(BtnKartSet, tbeOnClick, 'CihazSetTikla');
+  Form1.AddNewEvent(BtnParcaMonitorKart, tbeOnClick, 'ParcaMonitorTikla');
+  Form1.AddNewEvent(BtnParcaKlavyeKart, tbeOnClick, 'ParcaKlavyeTikla');
+  Form1.AddNewEvent(BtnParcaMouseKart, tbeOnClick, 'ParcaMouseTikla');
+  Form1.AddNewEvent(BtnParcaKasaKart, tbeOnClick, 'ParcaKasaTikla');
+  Form1.AddNewEvent(BtnParcaKabloKart, tbeOnClick, 'ParcaKabloTikla');
+  Form1.AddNewEvent(BtnParcaGenelKart, tbeOnClick, 'ParcaGenelTikla');
+  Form1.AddNewEvent(ChkCihazPC, tbeOnClick, 'CihazPCTikla');
+  Form1.AddNewEvent(ChkCihazSantrifuj, tbeOnClick, 'CihazSantrifujTikla');
+  Form1.AddNewEvent(ChkCihazSwitch, tbeOnClick, 'CihazSwitchTikla');
+  Form1.AddNewEvent(ChkCihazKasa, tbeOnClick, 'CihazKasaTikla');
+  Form1.AddNewEvent(ChkCihazMouse, tbeOnClick, 'CihazMouseTikla');
+  Form1.AddNewEvent(ChkCihazKlavye, tbeOnClick, 'CihazKlavyeTikla');
+  Form1.AddNewEvent(ChkCihazMonitor, tbeOnClick, 'CihazMonitorTikla');
+  Form1.AddNewEvent(ChkCihazSet, tbeOnClick, 'CihazSetTikla');
+
+
+
+
+
+
+
+
+
+
+
+  Form1.AddNewEvent(BtnHepsiniSec, tbeOnClick, 'HepsiniSec');
+  Form1.AddNewEvent(ChkMonitor, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(ChkKlavye, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(ChkMouse, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(ChkKasa, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(ChkKablo, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(ChkGenelAriza, tbeOnClick, 'ArizaSecimiDegisti');
+  Form1.AddNewEvent(BtnMusteriSorunlar, tbeOnClick, 'MusteriSorunlariniGoster');
+  Form1.AddNewEvent(BtnMusteriTalep, tbeOnClick, 'MusteriTalepEkrani');
+  Form1.AddNewEvent(BtnTalepGonder, tbeOnClick, 'TalepGonder');
+  Form1.AddNewEvent(BtnMusteriTalepler, tbeOnClick, 'MusteriTaleplerimiGoster');
+  Form1.AddNewEvent(BtnMusteriBakiye, tbeOnClick, 'MusteriBakiyeGoster');
+  Form1.AddNewEvent(BtnBakiyeYukleGit, tbeOnClick, 'MusteriBakiyeGoster');
+  Form1.AddNewEvent(BtnBakiyeYukleOnay, tbeOnClick, 'BakiyeYukle');
+
+  Form1.AddNewEvent(BtnGeri, tbeOnClick, 'GeriDon');
+  Form1.AddNewEvent(BtnSifreGoster, tbeOnClick, 'SifreGosterGizle');
+  Form1.AddNewEvent(BtnCikis, tbeOnClick, 'CikisYap');
+
+  AktifMusteriID = 0;
+  AktifMusteriAdi = '';
+  GirisTipi = '';
+  GeriHedef = 'AnaSayfa';
+ 
+  AnaSayfa;
+
+  Form1.Run;
+}
